@@ -22,25 +22,31 @@ public class PlayerController2D : PlayerController
 
     private SpriteRenderer _spriteRenderer;
 
-    void Awake()
+    private bool doFixedUpdate;
+
+    protected override void Awake()
     {
         _rigidbody2D = GetComponent<Rigidbody2D>();
         _playerCollider = GetComponent<Collider2D>();
         _animator = GetComponent<Animator>();
         _spriteRenderer = GetComponent<SpriteRenderer>();
+        base.Awake();
     }
 
-    void Start()
+    protected override void Start()
     {
-
+        base.Start();
     }
 
     protected override void ExecuteUpdate(bool hasFocus, bool pauseMenuOpen)
     {
         if (pauseMenuOpen || !hasFocus)
         {
+            doFixedUpdate = false;
             return;
         }
+
+        doFixedUpdate = true;
 
         if (BackpackItem != null)
         {
@@ -89,6 +95,11 @@ public class PlayerController2D : PlayerController
 
     void FixedUpdate()
     {
+        if (!doFixedUpdate)
+        {
+            return;
+        }
+
         if (UsePhysics)
         {
             HandleMovementWithPhysics();
