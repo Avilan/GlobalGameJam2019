@@ -1,9 +1,5 @@
 ﻿using System.Collections.Generic;
-using System.Numerics;
-using UnityEditor.PackageManager;
 using UnityEngine;
-using Vector2 = UnityEngine.Vector2;
-using Vector3 = UnityEngine.Vector3;
 
 public class FirstPersonPlayerController : PlayerController {
 
@@ -72,6 +68,7 @@ public class FirstPersonPlayerController : PlayerController {
                 }
 
 			}
+			if(Input.GetKeyDown(KeyCode.Mouse0)) Cursor.lockState = CursorLockMode.Locked;
 			#if UNITY_EDITOR
 				if(Input.GetKeyDown(KeyCode.Mouse1)){
 				    hits.Clear();

@@ -7,8 +7,14 @@ public class MainMenu : MonoBehaviour {
 
     [SerializeField] string gameStartScene;
 
+    void Start () {
+        Cursor.lockState = CursorLockMode.None;
+    }
+
     void Update () {
-        if(Input.anyKeyDown){
+        if(Input.GetKeyDown(KeyCode.Escape)){
+            Application.Quit();
+        }else if(Input.anyKeyDown){
             SceneManager.LoadScene(gameStartScene);
         }
     }
