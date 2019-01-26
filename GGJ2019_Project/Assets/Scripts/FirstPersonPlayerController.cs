@@ -19,6 +19,7 @@ public class FirstPersonPlayerController : PlayerController {
 	[SerializeField] KeyCode keySprint;
 
 	[Header("Settings")]
+	[SerializeField] float slopeLimit;
 	[SerializeField] float walkSpeed;
 	[SerializeField] float sprintSpeed;
 	[SerializeField] float jumpHeight;
@@ -29,6 +30,7 @@ public class FirstPersonPlayerController : PlayerController {
 
     protected override void Start () {
         base.Start();
+        cc.slopeLimit = 90f;
         hits = new List<ControllerColliderHit>();
         MeshRenderer mr = GetComponent<MeshRenderer>();
         if(mr != null) mr.enabled = false;
@@ -67,7 +69,7 @@ public class FirstPersonPlayerController : PlayerController {
 	    Vector3 desiredVelocity = GetSurfaceMoveVector(cc.transform.TransformDirection(dirInput), groundNormal)* dirInput.magnitude;
 	    desiredVelocity *= (Input.GetKey(keySprint) ? sprintSpeed : walkSpeed);
 	    if(isGrounded){
-		    if(Vector3.Angle(groundNormal, Vector3.up) < cc.slopeLimit){
+		    if(Vector3.Angle(groundNormal, Vector3.up) < slopeLimit){
 			    externalVelocity = Vector3.zero;
 			    if(Input.GetKey(keyJump)){
 				    desiredVelocity.y = 0f;

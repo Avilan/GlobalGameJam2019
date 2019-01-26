@@ -118,6 +118,7 @@ MonoBehaviour:
   keyRight: 100
   keyJump: 32
   keySprint: 304
+  slopeLimit: 55
   walkSpeed: 5
   sprintSpeed: 8
   jumpHeight: 1
