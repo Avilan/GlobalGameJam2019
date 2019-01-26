@@ -19,7 +19,7 @@ public abstract class PlayerController : MonoBehaviour, IPauseObserver {
 
     protected virtual void Start () {
 	    Cursor.lockState = CursorLockMode.Locked;
-
+		hasFocus = Application.isFocused;
 	    PauseMenu.Instance.AddObserver(this);
 	    PauseMenu.Instance.Close();
     }
@@ -36,6 +36,8 @@ public abstract class PlayerController : MonoBehaviour, IPauseObserver {
     }
 
 	protected abstract void ExecuteUpdate (bool hasFocus, bool pauseMenuOpen);
+
+	protected abstract void SaveBeforeLevelChange ();
 
     void OnApplicationFocus (bool hasFocus) {
 	    this.hasFocus = hasFocus;

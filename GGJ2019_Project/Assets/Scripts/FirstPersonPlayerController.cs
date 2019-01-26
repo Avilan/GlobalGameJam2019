@@ -124,6 +124,10 @@ public class FirstPersonPlayerController : PlayerController {
 		heldItemParent.transform.localPosition = originalHeldItemParentPosition + new Vector3(0f, Mathf.Sin(Mathf.PI * itemBob) * itemBobStrength, 0f);
     }
 
+    protected override void SaveBeforeLevelChange () {
+		PlayerPrefs.SetString("heldItem", ((heldItem == null) ? "" : heldItem.type.ToString()));
+    }
+
     Vector3 GetDirInput () {
 	    Vector3 output = Vector3.zero;
 	    if (Input.GetKey(keybinds.keyForward)) output += Vector3.forward;

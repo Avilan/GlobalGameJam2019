@@ -96,6 +96,11 @@ public class PlayerController2D : PlayerController
         }
     }
 
+    //TODO saving before level change. and loading on level entry (override LoadSettings but keep the base!!!)
+    protected override void SaveBeforeLevelChange () {
+        throw new System.NotImplementedException();
+    }
+
     void FixedUpdate()
     {
         if (!doFixedUpdate)
