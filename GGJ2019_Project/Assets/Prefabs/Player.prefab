@@ -110,14 +110,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 462c6e0f5baabc744b8892e8a3b96d69, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  keybinds: {fileID: 11400000, guid: 5b44816fd8aa6304fa04910183ea7945, type: 2}
   cc: {fileID: 1785487019234282856}
   cam: {fileID: 1785487019551131408}
-  keyFwd: 119
-  keyBwd: 115
-  keyLeft: 97
-  keyRight: 100
-  keyJump: 32
-  keySprint: 304
   slopeLimit: 55
   walkSpeed: 5
   sprintSpeed: 8

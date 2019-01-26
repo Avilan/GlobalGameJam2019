@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Numerics;
+using UnityEditor.PackageManager;
 using UnityEngine;
 using Vector2 = UnityEngine.Vector2;
 using Vector3 = UnityEngine.Vector3;
@@ -9,14 +10,6 @@ public class FirstPersonPlayerController : PlayerController {
 	[Header("Components")]
 	[SerializeField] CharacterController cc;
 	[SerializeField] Camera cam;
-
-	[Header("Keybinds")]
-	[SerializeField] KeyCode keyFwd;
-	[SerializeField] KeyCode keyBwd;
-	[SerializeField] KeyCode keyLeft;
-	[SerializeField] KeyCode keyRight;
-	[SerializeField] KeyCode keyJump;
-	[SerializeField] KeyCode keySprint;
 
 	[Header("Settings")]
 	[SerializeField] float slopeLimit;
@@ -44,6 +37,17 @@ public class FirstPersonPlayerController : PlayerController {
 	    bool readInput = (hasFocus && !PauseMenu.Instance.IsOpen);
 	    Vector2 mouseInput = (readInput ? GetMouseInput() : Vector2.zero);
 	    Vector3 dirInput = (readInput ? GetDirInput() : Vector3.zero);
+	    if(readInput){
+			if(Input.GetKeyDown(keybinds.keyInteract)){
+
+			}
+			#if UNITY_EDITOR
+				if(Input.GetKeyDown(KeyCode.Mouse1)){
+				    hits.Clear();
+					externalVelocity += cam.transform.forward * 50f;
+				}
+		    #endif
+	    }
 	    if (hasFocus) {
 		    Look(mouseInput);
 	    }
@@ -67,11 +71,11 @@ public class FirstPersonPlayerController : PlayerController {
 	    bool isGrounded = (GetIsGrounded(hits, out Vector3 groundNormal) && !jumped);
 	    jumped = false;
 	    Vector3 desiredVelocity = GetSurfaceMoveVector(cc.transform.TransformDirection(dirInput), groundNormal)* dirInput.magnitude;
-	    desiredVelocity *= (Input.GetKey(keySprint) ? sprintSpeed : walkSpeed);
+	    desiredVelocity *= (Input.GetKey(keybinds.keySprint) ? sprintSpeed : walkSpeed);
 	    if(isGrounded){
 		    if(Vector3.Angle(groundNormal, Vector3.up) < slopeLimit){
 			    externalVelocity = Vector3.zero;
-			    if(Input.GetKey(keyJump)){
+			    if(Input.GetKey(keybinds.keyJump)){
 				    desiredVelocity.y = 0f;
 				    externalVelocity = Vector3.up * Mathf.Sqrt(2f * Physics.gravity.magnitude * jumpHeight);
 				    jumped = true;
@@ -89,10 +93,10 @@ public class FirstPersonPlayerController : PlayerController {
 
     Vector3 GetDirInput () {
 	    Vector3 output = Vector3.zero;
-	    if (Input.GetKey(keyFwd)) output += Vector3.forward;
-	    if (Input.GetKey(keyBwd)) output += Vector3.back;
-	    if (Input.GetKey(keyLeft)) output += Vector3.left;
-	    if (Input.GetKey(keyRight)) output += Vector3.right;
+	    if (Input.GetKey(keybinds.keyForward)) output += Vector3.forward;
+	    if (Input.GetKey(keybinds.keyBack)) output += Vector3.back;
+	    if (Input.GetKey(keybinds.keyLeft)) output += Vector3.left;
+	    if (Input.GetKey(keybinds.keyRight)) output += Vector3.right;
 	    if(output.sqrMagnitude > 1f) output = output.normalized;
 	    return output;
     }

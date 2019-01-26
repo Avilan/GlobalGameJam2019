@@ -6,6 +6,9 @@ public abstract class PlayerController : MonoBehaviour, IPauseObserver {
 
 	public static PlayerController Instance { get; private set; }
 	public float mouseSensitivity { get; private set; }
+	public PlayerKeybinds Keybinds => keybinds;
+
+	[SerializeField] protected PlayerKeybinds keybinds;
 
 	bool hasFocus;
 

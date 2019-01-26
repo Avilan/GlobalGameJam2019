@@ -15,6 +15,7 @@ public class PauseMenu : MonoBehaviour {
 	[SerializeField] float mouseSensitivityMax;
 	[SerializeField] Slider mouseSensitivitySlider;
 	[SerializeField] Text mouseSensitivityText;
+	[SerializeField] Text keybindsText;
 
 	List<IPauseObserver> observers;
 
@@ -24,11 +25,13 @@ public class PauseMenu : MonoBehaviour {
     }
 
     void Start () {
-		float playerMouseSensitivity = PlayerController.Instance.mouseSensitivity;
+	    PlayerController player = PlayerController.Instance;
+		float playerMouseSensitivity = player.mouseSensitivity;
 		mouseSensitivityText.text = $"{playerMouseSensitivity:F1}";
 		mouseSensitivitySlider.minValue = mouseSensitivityMin;
 		mouseSensitivitySlider.maxValue = mouseSensitivityMax;
 		mouseSensitivitySlider.value = playerMouseSensitivity;
+		keybindsText.text = player.Keybinds.ToString();
     }
 
     public void AddObserver (IPauseObserver observer) {
