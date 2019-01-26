@@ -36,6 +36,8 @@ public class PlayerController2D : PlayerController
 
     protected override void Start()
     {
+        Debug.Log(IsHoldingItem);
+        Debug.Log(HeldItemType.ToString());
         base.Start();
     }
 
