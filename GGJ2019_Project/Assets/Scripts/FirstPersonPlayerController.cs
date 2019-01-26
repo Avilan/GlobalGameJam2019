@@ -58,14 +58,17 @@ public class FirstPersonPlayerController : PlayerController {
 							hitItem.transform.localScale *= heldItemScale;
 							hitItem.PickUp();
 							heldItem = hitItem;
-						}
+                            IsHoldingItem = true;
+                            HeldItemType = heldItem.type;
+                        }
 					}
 				}else{
 					heldItem.transform.localScale /= heldItemScale;
 					heldItem.transform.parent = null;
 					heldItem.DropToGround();
 					heldItem = null;
-				}
+                    IsHoldingItem = false;
+                }
 
 			}
 			#if UNITY_EDITOR

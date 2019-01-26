@@ -5,6 +5,11 @@ public abstract class PlayerController : MonoBehaviour, IPauseObserver {
 	protected const float DEFAULT_MOUSE_SENSITIVITY = 2f;
 
 	public static PlayerController Instance { get; private set; }
+
+    protected static ItemType HeldItemType;
+
+    protected static bool IsHoldingItem;
+
 	public float mouseSensitivity { get; private set; }
 	public PlayerKeybinds Keybinds => keybinds;
 
