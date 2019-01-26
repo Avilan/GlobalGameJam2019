@@ -118,8 +118,10 @@ MonoBehaviour:
   walkSpeed: 5
   sprintSpeed: 8
   jumpHeight: 1
-  interactRange: 0
-  heldItemScale: 0
+  interactRange: 2
+  heldItemScale: 0.25
+  itemBobStrength: 0.02
+  itemBobSpeed: 5
 --- !u!1 &1785487019551131410
 GameObject:
   m_ObjectHideFlags: 0

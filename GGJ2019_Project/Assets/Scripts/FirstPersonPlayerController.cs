@@ -19,11 +19,15 @@ public class FirstPersonPlayerController : PlayerController {
 	[SerializeField] float jumpHeight;
 	[SerializeField] float interactRange;
 	[SerializeField] float heldItemScale;
+	[SerializeField] float itemBobStrength;
+	[SerializeField] float itemBobSpeed;
 
 	List<ControllerColliderHit> hits;
 	Vector3 externalVelocity;
 	bool jumped;
 	WorldItem heldItem;
+	Vector3 originalHeldItemParentPosition;
+	float itemBob;
 
     protected override void Start () {
         base.Start();
@@ -31,6 +35,8 @@ public class FirstPersonPlayerController : PlayerController {
         hits = new List<ControllerColliderHit>();
         MeshRenderer mr = GetComponent<MeshRenderer>();
         if(mr != null) mr.enabled = false;
+        originalHeldItemParentPosition = heldItemParent.localPosition;
+        itemBob = 0f;
     }
 
     void OnControllerColliderHit (ControllerColliderHit hit) {
@@ -96,6 +102,7 @@ public class FirstPersonPlayerController : PlayerController {
 	    if(isGrounded){
 		    if(Vector3.Angle(groundNormal, Vector3.up) < slopeLimit){
 			    externalVelocity = Vector3.zero;
+			    UpdateItemBobbing(desiredVelocity.magnitude * Time.deltaTime * itemBobSpeed / walkSpeed);
 			    if(Input.GetKey(keybinds.keyJump)){
 				    desiredVelocity.y = 0f;
 				    externalVelocity = Vector3.up * Mathf.Sqrt(2f * Physics.gravity.magnitude * jumpHeight);
@@ -110,6 +117,11 @@ public class FirstPersonPlayerController : PlayerController {
 	    externalVelocity += Physics.gravity * Time.deltaTime;
 	    hits.Clear();
 	    cc.Move((desiredVelocity + externalVelocity)* Time.deltaTime);
+    }
+
+    void UpdateItemBobbing (float delta) {
+		itemBob += delta;
+		heldItemParent.transform.localPosition = originalHeldItemParentPosition + new Vector3(0f, Mathf.Sin(Mathf.PI * itemBob) * itemBobStrength, 0f);
     }
 
     Vector3 GetDirInput () {
