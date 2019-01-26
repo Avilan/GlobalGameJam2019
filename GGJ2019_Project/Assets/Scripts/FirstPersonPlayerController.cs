@@ -1,9 +1,10 @@
 ﻿using System.Collections.Generic;
+using System.Numerics;
 using UnityEngine;
+using Vector2 = UnityEngine.Vector2;
+using Vector3 = UnityEngine.Vector3;
 
 public class FirstPersonPlayerController : PlayerController {
-
-	//TODO if slope is too steep, don't allow jumping and just slide down...
 
 	[Header("Components")]
 	[SerializeField] CharacterController cc;
@@ -23,7 +24,7 @@ public class FirstPersonPlayerController : PlayerController {
 	[SerializeField] float jumpHeight;
 
 	List<ControllerColliderHit> hits;
-	float verticalVelocity;
+	Vector3 externalVelocity;
 	bool jumped;
 
     protected override void Start () {
@@ -66,17 +67,22 @@ public class FirstPersonPlayerController : PlayerController {
 	    Vector3 desiredVelocity = GetSurfaceMoveVector(cc.transform.TransformDirection(dirInput), groundNormal)* dirInput.magnitude;
 	    desiredVelocity *= (Input.GetKey(keySprint) ? sprintSpeed : walkSpeed);
 	    if(isGrounded){
-		    verticalVelocity = 0f;
-		    if(Input.GetKey(keyJump)){
-			    desiredVelocity.y = 0f;
-			    verticalVelocity = Mathf.Sqrt(2f * Physics.gravity.magnitude * jumpHeight);
-			    jumped = true;
+		    if(Vector3.Angle(groundNormal, Vector3.up) < cc.slopeLimit){
+			    externalVelocity = Vector3.zero;
+			    if(Input.GetKey(keyJump)){
+				    desiredVelocity.y = 0f;
+				    externalVelocity = Vector3.up * Mathf.Sqrt(2f * Physics.gravity.magnitude * jumpHeight);
+				    jumped = true;
+			    }
+		    }else{
+				desiredVelocity = Vector3.zero;
+				externalVelocity = Vector3.ProjectOnPlane(externalVelocity, groundNormal);
+				externalVelocity += Vector3.ProjectOnPlane(Physics.gravity, groundNormal) * Time.deltaTime;
 		    }
 	    }
-	    verticalVelocity += Physics.gravity.y * Time.deltaTime;
-	    desiredVelocity += Vector3.up * verticalVelocity;
+	    externalVelocity += Physics.gravity * Time.deltaTime;
 	    hits.Clear();
-	    cc.Move(desiredVelocity * Time.deltaTime);
+	    cc.Move((desiredVelocity + externalVelocity)* Time.deltaTime);
     }
 
     Vector3 GetDirInput () {
