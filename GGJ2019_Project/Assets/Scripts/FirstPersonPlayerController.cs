@@ -1,5 +1,8 @@
 ﻿using System.Collections.Generic;
+using UnityEditor.PackageManager;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class FirstPersonPlayerController : PlayerController {
 
@@ -7,6 +10,8 @@ public class FirstPersonPlayerController : PlayerController {
 	[SerializeField] CharacterController cc;
 	[SerializeField] Camera cam;
 	[SerializeField] Transform heldItemParent;
+	[SerializeField] Canvas guiCanvas;
+	[SerializeField] Image stressLevelImage;
 
 	[Header("Settings")]
 	[SerializeField] float slopeLimit;
@@ -18,6 +23,8 @@ public class FirstPersonPlayerController : PlayerController {
 	[SerializeField] float heldItemScale;
 	[SerializeField] float itemBobStrength;
 	[SerializeField] float itemBobSpeed;
+	[SerializeField] float minutesToFullStress;
+	[SerializeField] string mainMenuSceneName;
 
 	List<ControllerColliderHit> hits;
 	Vector3 externalVelocity;
@@ -34,6 +41,7 @@ public class FirstPersonPlayerController : PlayerController {
         if(mr != null) mr.enabled = false;
         originalHeldItemParentPosition = heldItemParent.localPosition;
         itemBob = 0f;
+        guiCanvas.planeDistance = cam.nearClipPlane + 0.01f;
     }
 
     void OnControllerColliderHit (ControllerColliderHit hit) {
@@ -129,6 +137,17 @@ public class FirstPersonPlayerController : PlayerController {
     void UpdateItemBobbing (float delta) {
 		itemBob += delta;
 		heldItemParent.transform.localPosition = originalHeldItemParentPosition + new Vector3(0f, Mathf.Sin(Mathf.PI * itemBob) * itemBobStrength, 0f);
+    }
+
+    protected override void ManageStressLevel() {
+	    float secondsToFullStress = minutesToFullStress * 60;
+	    float stressPerSecond = 1f / secondsToFullStress;
+	    StressLevel += stressPerSecond * Time.deltaTime;
+	    stressLevelImage.color = new Color(1f, 1f, 1f, StressLevel);
+	    if(StressLevel >= 1f){
+			Debug.Log("YOU'RE DEAD");
+			SceneManager.LoadScene(mainMenuSceneName);
+	    }
     }
 
     public override void SaveBeforeLevelChange () {

@@ -29,13 +29,20 @@ public static class GameState {
 		}
 	}
 
+	public static bool isNewGame;
+
 	static Dictionary<ItemType, ItemState> map;
 
-	static GameState () {
-		map = new Dictionary<ItemType, ItemState>();
+	public static void Reset () {
+		map.Clear();
 		foreach(ItemType type in System.Enum.GetValues(typeof(ItemType))){
 			map.Add(type, new ItemState(ItemLocation.OUTDOORS, false, Vector3.zero));
 		}
+		isNewGame = true;
+	}
+
+	static GameState () {
+		map = new Dictionary<ItemType, ItemState>();
 	}
 
 	public static ItemState GetStateForItem (ItemType itemType) {

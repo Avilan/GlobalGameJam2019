@@ -33,7 +33,7 @@ public class WorldItem : MonoBehaviour {
 
     public void DropToGround () {
 		if(Physics.Raycast(transform.position, Vector3.down, out RaycastHit hit)){
-			Debug.Log("snapping to \"" + hit.collider.gameObject.name + "\"");
+//			Debug.Log("snapping to \"" + hit.collider.gameObject.name + "\"");
 			float scaleMax = Mathf.Max(transform.localScale.x, Mathf.Max(transform.localScale.y, transform.localScale.z));
 			transform.position = hit.point + (Vector3.up * 0.5f * scaleMax);
 		}else{
