@@ -9,6 +9,7 @@ public class LevelChangeTrigger : MonoBehaviour {
 
     void OnTriggerEnter (Collider otherCollider) {
 		if(otherCollider.CompareTag("Player")){
+			otherCollider.GetComponent<PlayerController>().SaveBeforeLevelChange();
 			SceneManager.LoadScene(sceneToLoad);
 		}
     }

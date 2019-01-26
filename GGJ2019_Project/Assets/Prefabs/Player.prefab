@@ -116,6 +116,7 @@ MonoBehaviour:
   heldItemParent: {fileID: 6423665043956468326}
   slopeLimit: 55
   walkSpeed: 5
+  speedWhenHoldingAnItem: 3
   sprintSpeed: 8
   jumpHeight: 1
   interactRange: 2

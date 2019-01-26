@@ -22,6 +22,11 @@ public static class GameState {
 			this.customPosition = pos;
 		}
 
+		public override string ToString() {
+			return $"location: {itemLocation}\n" +
+			       $"hascustomposition: {hasCustomPosition}\n" +
+			       $"customposition: {customPosition}";
+		}
 	}
 
 	static Dictionary<ItemType, ItemState> map;
@@ -34,8 +39,11 @@ public static class GameState {
 	}
 
 	public static ItemState GetStateForItem (ItemType itemType) {
-		map.TryGetValue(itemType, out ItemState state);
-		return state;
+		if(map.TryGetValue(itemType, out ItemState state)){
+			return state;
+		}else{
+			throw new UnityException("No state found for item type \"" + itemType.ToString() + "\"");
+		}
 	}
 
 	public static void SetStateForItem (ItemType itemType, ItemState newItemState) {

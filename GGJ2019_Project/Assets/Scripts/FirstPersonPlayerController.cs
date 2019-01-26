@@ -15,6 +15,7 @@ public class FirstPersonPlayerController : PlayerController {
 	[Header("Settings")]
 	[SerializeField] float slopeLimit;
 	[SerializeField] float walkSpeed;
+	[SerializeField] float speedWhenHoldingAnItem;
 	[SerializeField] float sprintSpeed;
 	[SerializeField] float jumpHeight;
 	[SerializeField] float interactRange;
@@ -101,7 +102,13 @@ public class FirstPersonPlayerController : PlayerController {
 	    bool isGrounded = (GetIsGrounded(hits, out Vector3 groundNormal) && !jumped);
 	    jumped = false;
 	    Vector3 desiredVelocity = GetSurfaceMoveVector(cc.transform.TransformDirection(dirInput), groundNormal)* dirInput.magnitude;
-	    desiredVelocity *= (Input.GetKey(keybinds.keySprint) ? sprintSpeed : walkSpeed);
+	    float desiredSpeed;
+	    if(heldItem == null){
+		    desiredSpeed = (Input.GetKey(keybinds.keySprint) ? sprintSpeed : walkSpeed);
+	    }else{
+			desiredSpeed = speedWhenHoldingAnItem;
+	    }
+	    desiredVelocity *= desiredSpeed;
 	    if(isGrounded){
 		    if(Vector3.Angle(groundNormal, Vector3.up) < slopeLimit){
 			    externalVelocity = Vector3.zero;
@@ -127,8 +134,10 @@ public class FirstPersonPlayerController : PlayerController {
 		heldItemParent.transform.localPosition = originalHeldItemParentPosition + new Vector3(0f, Mathf.Sin(Mathf.PI * itemBob) * itemBobStrength, 0f);
     }
 
-    protected override void SaveBeforeLevelChange () {
-		PlayerPrefs.SetString("heldItem", ((heldItem == null) ? "" : heldItem.type.ToString()));
+    public override void SaveBeforeLevelChange () {
+		if(heldItem != null){
+			GameState.SetStateForItem(heldItem.type, new GameState.ItemState(GameState.ItemLocation.INDOORS, false, Vector3.zero));
+		}
     }
 
     Vector3 GetDirInput () {

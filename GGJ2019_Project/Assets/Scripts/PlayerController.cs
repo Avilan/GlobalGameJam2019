@@ -42,7 +42,7 @@ public abstract class PlayerController : MonoBehaviour, IPauseObserver {
 
 	protected abstract void ExecuteUpdate (bool hasFocus, bool pauseMenuOpen);
 
-	protected abstract void SaveBeforeLevelChange ();
+	public abstract void SaveBeforeLevelChange ();
 
     void OnApplicationFocus (bool hasFocus) {
 	    this.hasFocus = hasFocus;
