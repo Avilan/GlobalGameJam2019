@@ -1,4 +1,7 @@
 ﻿public enum ItemType {
 	PLANT,
-	STOVE
+	STOVE,
+	PAINTING,
+	CHAIR,
+	DRAWING
 }

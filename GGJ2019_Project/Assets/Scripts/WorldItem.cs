@@ -29,6 +29,8 @@ public class WorldItem : MonoBehaviour {
 		held = true;
     }
 
+    //TODO only test for "ground geometry". currently dropping onto another item is possible...
+
     public void DropToGround () {
 		if(Physics.Raycast(transform.position, Vector3.down, out RaycastHit hit)){
 			Debug.Log("snapping to \"" + hit.collider.gameObject.name + "\"");
