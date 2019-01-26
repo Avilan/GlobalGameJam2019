@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.PackageManager;
 using UnityEngine;
 
-public class PlayerController : MonoBehaviour {
+public class PlayerController : MonoBehaviour, IPauseObserver {
+
+	public static PlayerController Instance { get; private set; }
+
+	public float MouseSensitivity => mouseSensitivity;
 
 	[Header("Components")]
 	[SerializeField] CharacterController cc;
@@ -22,24 +25,39 @@ public class PlayerController : MonoBehaviour {
 	[SerializeField] float walkSpeed;
 	[SerializeField] float sprintSpeed;
 	[SerializeField] float jumpHeight;
-	[SerializeField] float mouseSensitivity;
+	[SerializeField] float defaultMouseSensitivity;
 
 	List<ControllerColliderHit> hits;
 	bool hasFocus;
 	bool jumped;
 	float verticalVelocity;
+	float mouseSensitivity;
+
+	void Awake () {
+		Instance = this;
+		LoadSettings();
+	}
 
     void Start () {
 	    Cursor.lockState = CursorLockMode.Locked;
 	    hits = new List<ControllerColliderHit>();
 	    MeshRenderer mr = GetComponent<MeshRenderer>();
 	    if(mr != null) mr.enabled = false;
+	    PauseMenu.Instance.AddObserver(this);
+	    PauseMenu.Instance.Close();
     }
 
     void Update () {
-	    if(Input.GetKeyDown(KeyCode.Mouse0)) Cursor.lockState = CursorLockMode.Locked;
-	    Vector2 mouseInput = GetMouseInput();
-	    Vector3 dirInput = (hasFocus ? GetDirInput() : Vector3.zero);
+	    if(Input.GetKeyDown(KeyCode.Escape)){
+			if(PauseMenu.Instance.IsOpen){
+				PauseMenu.Instance.Close();
+			}else{
+				PauseMenu.Instance.Open();
+			}
+	    }
+	    bool readInput = (hasFocus && !PauseMenu.Instance.IsOpen);
+	    Vector2 mouseInput = (readInput ? GetMouseInput() : Vector2.zero);
+	    Vector3 dirInput = (readInput ? GetDirInput() : Vector3.zero);
 	    if (hasFocus) {
 		    Look(mouseInput);
 	    }
@@ -52,6 +70,15 @@ public class PlayerController : MonoBehaviour {
 
     void OnControllerColliderHit (ControllerColliderHit hit) {
 		hits.Add(hit);
+    }
+
+    public void OnPauseStateChanged (bool newState) {
+	    Cursor.lockState = (newState ? CursorLockMode.None : CursorLockMode.Locked);
+	    LoadSettings();
+    }
+
+    void LoadSettings () {
+	    mouseSensitivity = PlayerPrefs.GetFloat("mouseSensitivity", defaultMouseSensitivity);
     }
 
     void Look (Vector2 mouseInput) {
