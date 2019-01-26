@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class PlayerController2D : PlayerController
@@ -18,7 +19,7 @@ public class PlayerController2D : PlayerController
 
     private Collider2D _playerCollider;
 
-    private Animator _animator;
+    private Animator playerAnimator;
 
     private SpriteRenderer _spriteRenderer;
 
@@ -28,7 +29,7 @@ public class PlayerController2D : PlayerController
     {
         _rigidbody2D = GetComponent<Rigidbody2D>();
         _playerCollider = GetComponent<Collider2D>();
-        _animator = GetComponent<Animator>();
+        playerAnimator = GetComponent<Animator>();
         _spriteRenderer = GetComponent<SpriteRenderer>();
         base.Awake();
     }
@@ -58,10 +59,11 @@ public class PlayerController2D : PlayerController
                 BackpackItem.transform.position = transform.position;
                 BackpackItem.transform.position = transform.position + new Vector3(itemData.PlacementOffsetX, itemData.PlacementOffsetY, 0);
                 BackpackItem = null;
+                playerAnimator.SetBool("isCarryingItem", false);
             }
         }
 
-        foreach (var item in HouseInventory)
+        foreach (var item in HouseInventory.ToList())
         {
             var playerCollision = item.GetComponent<Collider2D>().bounds.Intersects(_playerCollider.bounds);
             var itemData = item.GetComponent<InteriorItem2D>();
@@ -78,6 +80,7 @@ public class PlayerController2D : PlayerController
                         BackpackItem = item;
                         item.transform.position = new Vector3(-20, -20, 0);
                         itemData.DisableGlow();
+                        playerAnimator.SetBool("isCarryingItem", true);
                     }
                     else if (Input.GetKeyDown(keybinds.keyInteract))
                     {
@@ -115,16 +118,16 @@ public class PlayerController2D : PlayerController
         if (moveDirection > 0)
         {
             _spriteRenderer.flipX = false;
-            _animator.SetBool("isWalking", true);
+            playerAnimator.SetBool("isWalking", true);
         }
         else if (moveDirection < 0)
         {
             _spriteRenderer.flipX = true;
-            _animator.SetBool("isWalking", true);
+            playerAnimator.SetBool("isWalking", true);
         }
         else
         {
-            _animator.SetBool("isWalking", false);
+            playerAnimator.SetBool("isWalking", false);
         }
 
     }
