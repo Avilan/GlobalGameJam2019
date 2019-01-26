@@ -24,7 +24,7 @@ public class PauseMenu : MonoBehaviour {
     }
 
     void Start () {
-		float playerMouseSensitivity = PlayerController.Instance.MouseSensitivity;
+		float playerMouseSensitivity = PlayerController.Instance.mouseSensitivity;
 		mouseSensitivityText.text = $"{playerMouseSensitivity:F1}";
 		mouseSensitivitySlider.minValue = mouseSensitivityMin;
 		mouseSensitivitySlider.maxValue = mouseSensitivityMax;
