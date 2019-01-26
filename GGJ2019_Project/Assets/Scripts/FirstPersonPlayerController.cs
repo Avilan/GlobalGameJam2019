@@ -10,16 +10,20 @@ public class FirstPersonPlayerController : PlayerController {
 	[Header("Components")]
 	[SerializeField] CharacterController cc;
 	[SerializeField] Camera cam;
+	[SerializeField] Transform heldItemParent;
 
 	[Header("Settings")]
 	[SerializeField] float slopeLimit;
 	[SerializeField] float walkSpeed;
 	[SerializeField] float sprintSpeed;
 	[SerializeField] float jumpHeight;
+	[SerializeField] float interactRange;
+	[SerializeField] float heldItemScale;
 
 	List<ControllerColliderHit> hits;
 	Vector3 externalVelocity;
 	bool jumped;
+	WorldItem heldItem;
 
     protected override void Start () {
         base.Start();
@@ -39,6 +43,23 @@ public class FirstPersonPlayerController : PlayerController {
 	    Vector3 dirInput = (readInput ? GetDirInput() : Vector3.zero);
 	    if(readInput){
 			if(Input.GetKeyDown(keybinds.keyInteract)){
+				if(heldItem == null){
+					if(Physics.Raycast(cam.transform.position, cam.transform.forward, out RaycastHit hit, interactRange)){
+						WorldItem hitItem = hit.collider.gameObject.GetComponent<WorldItem>();
+						if(hitItem != null){
+							hitItem.transform.parent = heldItemParent;
+							hitItem.transform.localPosition = Vector3.zero;
+							hitItem.transform.localScale *= heldItemScale;
+							hitItem.PickUp();
+							heldItem = hitItem;
+						}
+					}
+				}else{
+					heldItem.transform.localScale /= heldItemScale;
+					heldItem.transform.parent = null;
+					heldItem.DropToGround();
+					heldItem = null;
+				}
 
 			}
 			#if UNITY_EDITOR
