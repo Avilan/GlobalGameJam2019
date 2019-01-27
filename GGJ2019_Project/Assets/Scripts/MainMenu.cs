@@ -8,6 +8,7 @@ public class MainMenu : MonoBehaviour {
     [SerializeField] string gameStartScene;
 
     void Start () {
+        Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;
         GameState.Reset();
     }
