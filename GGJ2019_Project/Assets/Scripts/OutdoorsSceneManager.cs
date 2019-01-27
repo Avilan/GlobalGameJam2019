@@ -14,8 +14,8 @@ public class OutdoorsSceneManager : MonoBehaviour {
 			if(existingTypes.Contains(item.type)){
 				throw new UnityException("dude, only one item per type allowed!!!");
 			}else{
+				existingTypes.Add(item.type);
 				GameState.ItemState state = GameState.GetStateForItem(item.type);
-				Debug.Log(state.ToString());
 				if(state.itemLocation.Equals(GameState.ItemLocation.OUTDOORS)){
 					item.gameObject.SetActive(true);
 					if(state.hasCustomPosition){

@@ -7,8 +7,8 @@ public abstract class PlayerController : MonoBehaviour, IPauseObserver {
 	public static PlayerController Instance { get; private set; }
 
     protected static ItemType HeldItemType;
-
     protected static bool IsHoldingItem;
+    protected static float StressLevel;
 
 	public float mouseSensitivity { get; private set; }
 	public PlayerKeybinds Keybinds => keybinds;
@@ -38,9 +38,12 @@ public abstract class PlayerController : MonoBehaviour, IPauseObserver {
 			}
 	    }
 	    ExecuteUpdate(hasFocus, PauseMenu.Instance.IsOpen);
+	    ManageStressLevel();
     }
 
 	protected abstract void ExecuteUpdate (bool hasFocus, bool pauseMenuOpen);
+
+	protected abstract void ManageStressLevel ();
 
 	public abstract void SaveBeforeLevelChange ();
 
@@ -55,6 +58,10 @@ public abstract class PlayerController : MonoBehaviour, IPauseObserver {
 
     protected virtual void LoadSettings () {
 	    mouseSensitivity = PlayerPrefs.GetFloat("mouseSensitivity", DEFAULT_MOUSE_SENSITIVITY);
+	    if(GameState.isNewGame){
+			StressLevel = 0f;
+		    GameState.isNewGame = false;
+	    }
     }
 
 }

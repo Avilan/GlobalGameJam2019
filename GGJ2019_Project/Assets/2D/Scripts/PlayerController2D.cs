@@ -181,8 +181,12 @@ public class PlayerController2D : PlayerController
         }
     }
 
-    //TODO saving before level change. and loading on level entry (override LoadSettings but keep the base!!!)
+    //not needed here but it's still in because i can't be arsed to change another script to actually cast to firstpersonplayercontroller...
     public override void SaveBeforeLevelChange () {
+        throw new System.NotImplementedException();
+    }
+
+    protected override void ManageStressLevel () {
         throw new System.NotImplementedException();
     }
 
