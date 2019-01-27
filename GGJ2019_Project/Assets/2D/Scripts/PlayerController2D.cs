@@ -48,6 +48,7 @@ public class PlayerController2D : PlayerController
         _playerCollider = GetComponent<Collider2D>();
         playerAnimator = GetComponent<Animator>();
         _spriteRenderer = GetComponent<SpriteRenderer>();
+
         base.Awake();
     }
 
@@ -87,21 +88,28 @@ public class PlayerController2D : PlayerController
                     break;
             }
 
-            //IsHoldingItem = false;
+            IsHoldingItem = false;
             playerAnimator.SetBool("isCarryingItem", true);
         }
 
+        // Load placed items
         foreach (var item in ItemMapping)
         {
             var itemState = GameState.GetStateForItem(item.Key);
             if (itemState.itemLocation == GameState.ItemLocation.INDOORS && itemState.indoorPosition != Vector2.zero)
             {
                 item.Value.transform.position = itemState.indoorPosition;
+                HouseInventory.Add(item.Value);
             }
         }
 
-        Debug.Log(IsHoldingItem);
-        Debug.Log(HeldItemType.ToString());
+        //TODO: Temp
+        //Add drawing as placed item
+        var drawingState = GameState.GetStateForItem(ItemType.DRAWING);
+        drawingState.itemLocation = GameState.ItemLocation.INDOORS;
+        drawingState.indoorPosition = ItemDrawing.transform.position;
+        GameState.SetStateForItem(ItemType.DRAWING, drawingState);
+
         base.Start();
     }
 
