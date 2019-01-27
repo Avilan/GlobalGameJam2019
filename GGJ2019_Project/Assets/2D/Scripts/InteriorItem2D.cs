@@ -47,7 +47,7 @@ public class InteriorItem2D : MonoBehaviour
 
         audioSource.clip = Music;
         audioSource.volume = 0;
-        StartMusic();
+        audioSource.Play();
         Hide();
     }
 
@@ -86,16 +86,6 @@ public class InteriorItem2D : MonoBehaviour
         render.enabled = true;
         collisionBox.enabled = true;
         transform.position = position;
-    }
-
-    public void StartMusic()
-    {
-        audioSource.Play();
-    }
-
-    public void StopMusic()
-    {
-        audioSource.Stop();
     }
 
     public void SetVolume(float volume)

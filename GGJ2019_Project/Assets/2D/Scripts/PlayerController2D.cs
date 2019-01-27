@@ -50,7 +50,7 @@ public class PlayerController2D : PlayerController
 
     protected override void Awake()
     {
-        //TESTING
+        ////TESTING
         //GameState.Reset();
         //StressLevel = 1.0f;
 
@@ -179,30 +179,43 @@ public class PlayerController2D : PlayerController
 
             if (playerCollision)
             {
-                //itemData.EnableGlow();
-
-                if (BackpackItem == null)
+                if (Input.GetKeyDown(keybinds.keyActivate) && activatedItems.Contains(item))
                 {
-                    if (Input.GetKeyDown(keybinds.keyInteract))
+                    itemData.SetVolume(0.0f);
+                    itemData.DisableGlow();
+                    activatedItems.Remove(item);
+                }
+                else
+                {
+                    if (BackpackItem == null)
                     {
-                        HouseInventory.Remove(item);
-                        BackpackItem = item;
-                        //item.transform.position = new Vector3(-20, -20, 0);
-                        //item.GetComponent<Renderer>().enabled = false;
-                        itemData.Hide();
-                        itemData.DisableGlow();
-                        playerAnimator.SetBool("isCarryingItem", true);
-                    }
-                    else if (Input.GetKeyDown(keybinds.keyActivate) && !activatedItems.Contains(item))
-                    {
-                        // Activate calm for the item
-                        // Music + reduced stress
-                        activatedItems.Add(item);
-                        MinutesToNoStress = MinutesToNoStress / 1.3f;
-                        itemData.SetVolume(1.0f);
-                        itemData.EnableGlow();
+                        if (Input.GetKeyDown(keybinds.keyInteract))
+                        {
+                            itemData.SetVolume(0.0f);
+                            itemData.DisableGlow();
+                            activatedItems.Remove(item);
+
+                            HouseInventory.Remove(item);
+                            BackpackItem = item;
+                            //item.transform.position = new Vector3(-20, -20, 0);
+                            //item.GetComponent<Renderer>().enabled = false;
+                            itemData.Hide();
+                            itemData.DisableGlow();
+                            playerAnimator.SetBool("isCarryingItem", true);
+                        }
+                        else if (Input.GetKeyDown(keybinds.keyActivate) && !activatedItems.Contains(item))
+                        {
+                            // Activate calm for the item
+                            // Music + reduced stress
+                            activatedItems.Add(item);
+                            MinutesToNoStress = MinutesToNoStress / 1.3f;
+                            itemData.SetVolume(1.0f);
+                            itemData.EnableGlow();
+                        }
                     }
                 }
+
+                //itemData.EnableGlow();
             }
             else
             {
