@@ -208,7 +208,7 @@ public class PlayerController2D : PlayerController
                             // Activate calm for the item
                             // Music + reduced stress
                             activatedItems.Add(item);
-                            MinutesToNoStress = MinutesToNoStress / 1.3f;
+                            //MinutesToNoStress = MinutesToNoStress / 1.3f;
                             itemData.SetVolume(1.0f);
                             itemData.EnableGlow();
                         }
@@ -232,6 +232,11 @@ public class PlayerController2D : PlayerController
     protected override void ManageStressLevel ()
     {
         var secondsToNoStress = MinutesToNoStress * 60;
+        if (secondsToNoStress > 0 && activatedItems.Any())
+        {
+            secondsToNoStress /= (activatedItems.Count * 1.2f);
+        }
+
         var stressPerSecond = 1f / secondsToNoStress;
         StressLevel -= stressPerSecond * Time.deltaTime;
         //StressVisuals.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, StressLevel);

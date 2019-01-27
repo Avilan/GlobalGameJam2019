@@ -17,12 +17,16 @@ public class PauseMenu : MonoBehaviour {
 	List<IPauseObserver> observers;
 
     void Awake () {
-	    Instance = this;
+        Cursor.visible = true;
+
+        Instance = this;
 	    observers = new List<IPauseObserver>();
     }
 
     void Start () {
-	    PlayerController player = PlayerController.Instance;
+        Cursor.visible = true;
+
+        PlayerController player = PlayerController.Instance;
 		float playerMouseSensitivity = player.mouseSensitivity;
 		mouseSensitivityText.text = $"{playerMouseSensitivity:F1}";
 		mouseSensitivitySlider.minValue = mouseSensitivityMin;
@@ -36,12 +40,17 @@ public class PauseMenu : MonoBehaviour {
     }
 
     public void Open () {
-		gameObject.SetActive(true);
+        Cursor.visible = true;
+
+        gameObject.SetActive(true);
 		Time.timeScale = 0f;
 		MessageObserversAboutNewState(true);
     }
 
-    public void Close () {
+    public void Close ()
+    {
+        Cursor.visible = false;
+
 		gameObject.SetActive(false);
 		Time.timeScale = 1f;
 		MessageObserversAboutNewState(false);
