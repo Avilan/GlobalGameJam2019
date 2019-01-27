@@ -13,6 +13,8 @@ public class InteriorItem2D : MonoBehaviour
 
     public bool Glowing;
 
+    public GameObject GlowOverlay;
+
     public AudioClip Music;
 
     private Renderer render;
@@ -21,11 +23,20 @@ public class InteriorItem2D : MonoBehaviour
 
     private AudioSource audioSource;
 
+    private Renderer glowOverlayRenderer;
+
     void Awake()
     {
         render = GetComponent<Renderer>();
         collisionBox = GetComponent<Collider2D>();
         audioSource = GetComponent<AudioSource>();
+
+        if (GlowOverlay != null)
+        {
+            glowOverlayRenderer = GlowOverlay.GetComponent<Renderer>();
+            glowOverlayRenderer.enabled = false;
+        }
+
         audioSource.clip = Music;
         audioSource.volume = 0;
         StartMusic();
@@ -63,12 +74,18 @@ public class InteriorItem2D : MonoBehaviour
     public void EnableGlow()
     {
         Glowing = true;
-        // TODO
+        if (glowOverlayRenderer != null)
+        {
+            glowOverlayRenderer.enabled = true;
+        }
     }
 
     public void DisableGlow()
     {
         Glowing = false;
-        // TODO
+        if (glowOverlayRenderer != null)
+        {
+            glowOverlayRenderer.enabled = false;
+        }
     }
 }

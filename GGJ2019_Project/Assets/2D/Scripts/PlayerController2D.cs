@@ -161,6 +161,11 @@ public class PlayerController2D : PlayerController
                 newState.indoorPosition = dropPosition;
                 GameState.SetStateForItem(itemType, newState);
 
+                if (activatedItems.Any(i => i == BackpackItem))
+                {
+                    itemData.EnableGlow();
+                }
+
                 HouseInventory.Add(BackpackItem);
                 BackpackItem = null;
                 playerAnimator.SetBool("isCarryingItem", false);
@@ -174,7 +179,7 @@ public class PlayerController2D : PlayerController
 
             if (playerCollision)
             {
-                itemData.EnableGlow();
+                //itemData.EnableGlow();
 
                 if (BackpackItem == null)
                 {
@@ -195,12 +200,13 @@ public class PlayerController2D : PlayerController
                         activatedItems.Add(item);
                         MinutesToNoStress = MinutesToNoStress / 1.3f;
                         itemData.SetVolume(1.0f);
+                        itemData.EnableGlow();
                     }
                 }
             }
             else
             {
-                itemData.DisableGlow();
+                //itemData.DisableGlow();
             }
         }
     }

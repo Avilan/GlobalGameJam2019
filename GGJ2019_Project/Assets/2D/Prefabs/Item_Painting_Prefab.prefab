@@ -123,7 +123,8 @@ MonoBehaviour:
   PlacementOffsetX: 0
   PlacementOffsetY: 0.5
   Glowing: 0
-  Music: {fileID: 8300000, guid: 4122096a7a5e32946b511b606bac76a1, type: 3}
+  GlowOverlay: {fileID: 0}
+  Music: {fileID: 8300000, guid: 15bdd8df16279564381381ca5fd201f1, type: 3}
 --- !u!82 &2395635713980631131
 AudioSource:
   m_ObjectHideFlags: 0

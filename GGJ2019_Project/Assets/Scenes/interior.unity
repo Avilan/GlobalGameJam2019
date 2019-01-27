@@ -293,7 +293,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!212 &306188571
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -810,7 +810,7 @@ PrefabInstance:
     - target: {fileID: 5518118319023242063, guid: d5f695c91bfd562498ea8b0679e21f8d,
         type: 3}
       propertyPath: m_RootOrder
-      value: 6
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 5518118319023242063, guid: d5f695c91bfd562498ea8b0679e21f8d,
         type: 3}
@@ -832,6 +832,11 @@ PrefabInstance:
       propertyPath: PlacementOffsetY
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 5663897769298369320, guid: d5f695c91bfd562498ea8b0679e21f8d,
+        type: 3}
+      propertyPath: Music
+      value: 
+      objectReference: {fileID: 8300000, guid: 15bdd8df16279564381381ca5fd201f1, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d5f695c91bfd562498ea8b0679e21f8d, type: 3}
 --- !u!1 &1093287902 stripped
@@ -996,7 +1001,7 @@ PrefabInstance:
     - target: {fileID: 3840617096924245777, guid: b8c38433528177546bc2ff52cd258842,
         type: 3}
       propertyPath: m_RootOrder
-      value: 5
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 3840617096924245777, guid: b8c38433528177546bc2ff52cd258842,
         type: 3}
@@ -1018,6 +1023,11 @@ PrefabInstance:
       propertyPath: PlacementOffsetY
       value: 0.7
       objectReference: {fileID: 0}
+    - target: {fileID: 5779352803161004418, guid: b8c38433528177546bc2ff52cd258842,
+        type: 3}
+      propertyPath: Music
+      value: 
+      objectReference: {fileID: 8300000, guid: 6efd6e42b904db448a6d73c8fc6bcf2d, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b8c38433528177546bc2ff52cd258842, type: 3}
 --- !u!1 &1759272481 stripped
@@ -1174,6 +1184,11 @@ PrefabInstance:
       propertyPath: PlacementOffsetY
       value: 1.22
       objectReference: {fileID: 0}
+    - target: {fileID: 192858599169013800, guid: 6fc38650692ba99458b921b9dd111229,
+        type: 3}
+      propertyPath: Music
+      value: 
+      objectReference: {fileID: 8300000, guid: cf9a65e8e424c984c9f22e31e067fd70, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6fc38650692ba99458b921b9dd111229, type: 3}
 --- !u!1 &2027439982553700574 stripped
@@ -1232,7 +1247,7 @@ PrefabInstance:
     - target: {fileID: 3445987953598718202, guid: 559e9bfd272f24642b76829be672f0ad,
         type: 3}
       propertyPath: m_RootOrder
-      value: 9
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 3445987953598718202, guid: 559e9bfd272f24642b76829be672f0ad,
         type: 3}
@@ -1254,6 +1269,11 @@ PrefabInstance:
       propertyPath: PlacementOffsetY
       value: 1.11
       objectReference: {fileID: 0}
+    - target: {fileID: 2688647331774684131, guid: 559e9bfd272f24642b76829be672f0ad,
+        type: 3}
+      propertyPath: Music
+      value: 
+      objectReference: {fileID: 8300000, guid: 226f8e80c192f284d99720a5c1676dd9, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 559e9bfd272f24642b76829be672f0ad, type: 3}
 --- !u!1 &4440593742058910090 stripped
@@ -1312,7 +1332,7 @@ PrefabInstance:
     - target: {fileID: 5266810189216941324, guid: dbb6660fd8e68b942bfbf130ef7e1632,
         type: 3}
       propertyPath: m_RootOrder
-      value: 8
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 5266810189216941324, guid: dbb6660fd8e68b942bfbf130ef7e1632,
         type: 3}
@@ -1329,6 +1349,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8504144401962907375, guid: dbb6660fd8e68b942bfbf130ef7e1632,
+        type: 3}
+      propertyPath: Music
+      value: 
+      objectReference: {fileID: 8300000, guid: 11dab8784b1811f4194a5419c5b66473, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: dbb6660fd8e68b942bfbf130ef7e1632, type: 3}
 --- !u!1 &4542499646723857458 stripped
