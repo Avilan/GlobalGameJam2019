@@ -40,7 +40,7 @@ public class WorldItem : MonoBehaviour {
 			//do nothing...
 		}
 		held = false;
-		GameState.SetStateForItem(this.type, new GameState.ItemState(GameState.ItemLocation.OUTDOORS, true, transform.position));
+		GameState.SetStateForItem(this.type, new GameState.ItemState(GameState.ItemLocation.OUTDOORS, true, transform.position, Vector2.zero));
     }
 	
 }

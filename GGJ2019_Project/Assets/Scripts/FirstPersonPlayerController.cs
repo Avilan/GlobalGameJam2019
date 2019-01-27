@@ -133,7 +133,7 @@ public class FirstPersonPlayerController : PlayerController {
 
     public override void SaveBeforeLevelChange () {
 		if(heldItem != null){
-			GameState.SetStateForItem(heldItem.type, new GameState.ItemState(GameState.ItemLocation.INDOORS, false, Vector3.zero));
+			GameState.SetStateForItem(heldItem.type, new GameState.ItemState(GameState.ItemLocation.INDOORS, false, Vector3.zero, Vector2.zero));
 		}
     }
 

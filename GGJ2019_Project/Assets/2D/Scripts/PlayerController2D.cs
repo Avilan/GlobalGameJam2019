@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerController2D : PlayerController
 {
@@ -13,8 +14,24 @@ public class PlayerController2D : PlayerController
 
     public List<GameObject> HouseInventory;
 
+    public GameObject Exit;
+
     /////
 
+    public GameObject ItemPlant;
+
+    public GameObject ItemPainting;
+
+    public GameObject ItemFireplace;
+
+    public GameObject ItemChair;
+
+    public GameObject ItemDrawing;
+
+    public Dictionary<ItemType, GameObject> ItemMapping;
+
+    /////
+    
     private Rigidbody2D _rigidbody2D;
 
     private Collider2D _playerCollider;
@@ -36,6 +53,53 @@ public class PlayerController2D : PlayerController
 
     protected override void Start()
     {
+        ItemMapping = new Dictionary<ItemType, GameObject>
+        {
+            { ItemType.CHAIR, ItemChair },
+            { ItemType.DRAWING, ItemDrawing },
+            { ItemType.PAINTING, ItemPainting },
+            { ItemType.PLANT, ItemPlant },
+            { ItemType.STOVE, ItemFireplace }
+        };
+
+        if (IsHoldingItem)
+        {
+            switch (HeldItemType)
+            {
+                case ItemType.CHAIR:
+                    BackpackItem = ItemChair;
+                    break;
+
+                case ItemType.DRAWING:
+                    BackpackItem = ItemDrawing;
+                    break;
+
+                case ItemType.PAINTING:
+                    BackpackItem = ItemPainting;
+                    break;
+
+                case ItemType.PLANT:
+                    BackpackItem = ItemPlant;
+                    break;
+
+                case ItemType.STOVE:
+                    BackpackItem = ItemFireplace;
+                    break;
+            }
+
+            //IsHoldingItem = false;
+            playerAnimator.SetBool("isCarryingItem", true);
+        }
+
+        foreach (var item in ItemMapping)
+        {
+            var itemState = GameState.GetStateForItem(item.Key);
+            if (itemState.itemLocation == GameState.ItemLocation.INDOORS && itemState.indoorPosition != Vector2.zero)
+            {
+                item.Value.transform.position = itemState.indoorPosition;
+            }
+        }
+
         Debug.Log(IsHoldingItem);
         Debug.Log(HeldItemType.ToString());
         base.Start();
@@ -51,15 +115,34 @@ public class PlayerController2D : PlayerController
 
         doFixedUpdate = true;
 
+        var isOverExit = Exit.GetComponent<Collider2D>().bounds.Intersects(_playerCollider.bounds);
+        if (isOverExit)
+        {
+            if (BackpackItem == null && Input.GetKeyDown(KeyCode.F))
+            {
+                SceneManager.LoadScene("movementdemo");
+            }
+            return;
+        }
+
         if (BackpackItem != null)
         {
             if (Input.GetKeyDown(KeyCode.E))
             {
                 var itemData = BackpackItem.GetComponent<InteriorItem2D>();
 
+                var dropPosition = transform.position + new Vector3(itemData.PlacementOffsetX, itemData.PlacementOffsetY, 0);
+
+                var itemType = ItemMapping.Single(m => m.Value == BackpackItem).Key;
+                var newState = GameState.GetStateForItem(itemType);
+                newState.indoorPosition = dropPosition;
+                GameState.SetStateForItem(itemType, newState);
+
+                Debug.Log(newState);
+
                 HouseInventory.Add(BackpackItem);
-                BackpackItem.transform.position = transform.position;
-                BackpackItem.transform.position = transform.position + new Vector3(itemData.PlacementOffsetX, itemData.PlacementOffsetY, 0);
+                BackpackItem.transform.position = dropPosition;
+                //BackpackItem.transform.position = transform.position + new Vector3(itemData.PlacementOffsetX, itemData.PlacementOffsetY, 0);
                 BackpackItem = null;
                 playerAnimator.SetBool("isCarryingItem", false);
             }
