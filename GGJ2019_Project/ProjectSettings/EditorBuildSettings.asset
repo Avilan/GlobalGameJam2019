@@ -17,4 +17,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/movementdemo.unity
     guid: bc0b1894d15559c43844f10b850f47e2
+  - enabled: 1
+    path: Assets/Scenes/OutDoorWorld.unity
+    guid: 2dcac7ac65e72f74dbbfba88146826bb
   m_configObjects: {}

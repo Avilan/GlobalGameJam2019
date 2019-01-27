@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bcf88b85eeccd4e48a3ae2e3210681be, type: 3}
-  m_Name: New ItemInfo
+  m_Name: Drawing
   m_EditorClassIdentifier: 
   artwork: {fileID: 2800000, guid: e894097fa57f78544b6c3508b6badf8a, type: 3}
   type: 4
