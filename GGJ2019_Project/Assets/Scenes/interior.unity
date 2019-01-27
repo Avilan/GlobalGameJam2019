@@ -293,7 +293,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!212 &306188571
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -810,7 +810,7 @@ PrefabInstance:
     - target: {fileID: 5518118319023242063, guid: d5f695c91bfd562498ea8b0679e21f8d,
         type: 3}
       propertyPath: m_RootOrder
-      value: 6
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 5518118319023242063, guid: d5f695c91bfd562498ea8b0679e21f8d,
         type: 3}
@@ -1001,7 +1001,7 @@ PrefabInstance:
     - target: {fileID: 3840617096924245777, guid: b8c38433528177546bc2ff52cd258842,
         type: 3}
       propertyPath: m_RootOrder
-      value: 5
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 3840617096924245777, guid: b8c38433528177546bc2ff52cd258842,
         type: 3}
@@ -1027,7 +1027,7 @@ PrefabInstance:
         type: 3}
       propertyPath: Music
       value: 
-      objectReference: {fileID: 8300000, guid: 11dab8784b1811f4194a5419c5b66473, type: 3}
+      objectReference: {fileID: 8300000, guid: 6efd6e42b904db448a6d73c8fc6bcf2d, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b8c38433528177546bc2ff52cd258842, type: 3}
 --- !u!1 &1759272481 stripped
@@ -1247,7 +1247,7 @@ PrefabInstance:
     - target: {fileID: 3445987953598718202, guid: 559e9bfd272f24642b76829be672f0ad,
         type: 3}
       propertyPath: m_RootOrder
-      value: 9
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 3445987953598718202, guid: 559e9bfd272f24642b76829be672f0ad,
         type: 3}
@@ -1332,7 +1332,7 @@ PrefabInstance:
     - target: {fileID: 5266810189216941324, guid: dbb6660fd8e68b942bfbf130ef7e1632,
         type: 3}
       propertyPath: m_RootOrder
-      value: 8
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 5266810189216941324, guid: dbb6660fd8e68b942bfbf130ef7e1632,
         type: 3}
