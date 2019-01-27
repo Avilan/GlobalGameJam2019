@@ -103,12 +103,12 @@ public class PlayerController2D : PlayerController
             playerAnimator.SetBool("isCarryingItem", true);
         }
 
-        // TODO: TEMP
-        // Add drawing as placed item
-        var itemDrawingState = GameState.GetStateForItem(ItemType.DRAWING);
-        itemDrawingState.itemLocation = GameState.ItemLocation.INDOORS;
-        itemDrawingState.indoorPosition = ItemDrawing.transform.position;
-        GameState.SetStateForItem(ItemType.DRAWING, itemDrawingState);
+        //// TODO: TEMP
+        //// Add drawing as placed item
+        //var itemDrawingState = GameState.GetStateForItem(ItemType.DRAWING);
+        //itemDrawingState.itemLocation = GameState.ItemLocation.INDOORS;
+        //itemDrawingState.indoorPosition = ItemDrawing.transform.position;
+        //GameState.SetStateForItem(ItemType.DRAWING, itemDrawingState);
 
         // Load placed items
         foreach (var item in ItemMapping)
