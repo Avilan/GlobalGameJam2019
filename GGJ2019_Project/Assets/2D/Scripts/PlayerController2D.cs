@@ -138,7 +138,7 @@ public class PlayerController2D : PlayerController
         var isOverExit = Exit.GetComponent<Collider2D>().bounds.Intersects(_playerCollider.bounds);
         if (isOverExit)
         {
-            if (BackpackItem == null && Input.GetKeyDown(keybinds.keyInteract))
+            if (BackpackItem == null && Input.GetKeyDown(keybinds.keyActivate))
             {
                 SceneManager.LoadScene("OutDoorWorld");
             }
@@ -193,7 +193,7 @@ public class PlayerController2D : PlayerController
                         itemData.DisableGlow();
                         playerAnimator.SetBool("isCarryingItem", true);
                     }
-                    else if (Input.GetKeyDown(KeyCode.F) && !activatedItems.Contains(item))
+                    else if (Input.GetKeyDown(keybinds.keyActivate) && !activatedItems.Contains(item))
                     {
                         // Activate calm for the item
                         // Music + reduced stress

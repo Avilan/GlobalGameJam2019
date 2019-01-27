@@ -10,6 +10,7 @@ public class PlayerKeybinds : ScriptableObject {
 	public KeyCode keyJump;
 	public KeyCode keySprint;
 	public KeyCode keyInteract;
+    public KeyCode keyActivate;
 
 	public override string ToString() {
 		return $"Forward: {keyForward}\n" +
@@ -18,6 +19,7 @@ public class PlayerKeybinds : ScriptableObject {
 				$"Right: {keyRight}\n" +
 				$"Jump: {keyJump}\n" +
 		        $"Sprint: {keySprint}\n" +
-		        $"Interact: {keyInteract}";
+		        $"Pick up/drop: {keyInteract}\n" +
+                $"Activate: {keyActivate}";
 	}
 }
