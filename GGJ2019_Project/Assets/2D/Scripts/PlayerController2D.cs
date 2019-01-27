@@ -28,7 +28,9 @@ public class PlayerController2D : PlayerController
 
     public GameObject ItemDrawing;
 
-    public Dictionary<ItemType, GameObject> ItemMapping;
+    public float MinutesToNoStress;
+
+    public GameObject StressVisuals;
 
     /////
     
@@ -40,10 +42,19 @@ public class PlayerController2D : PlayerController
 
     private SpriteRenderer _spriteRenderer;
 
+    private Dictionary<ItemType, GameObject> ItemMapping;
+
+    private List<GameObject> activatedItems;
+
     private bool doFixedUpdate;
 
     protected override void Awake()
     {
+        //TESTING
+        //GameState.Reset();
+        //StressLevel = 1.0f;
+
+        activatedItems = new List<GameObject>();
         _rigidbody2D = GetComponent<Rigidbody2D>();
         _playerCollider = GetComponent<Collider2D>();
         playerAnimator = GetComponent<Animator>();
@@ -92,23 +103,24 @@ public class PlayerController2D : PlayerController
             playerAnimator.SetBool("isCarryingItem", true);
         }
 
+        // TODO: TEMP
+        // Add drawing as placed item
+        var itemDrawingState = GameState.GetStateForItem(ItemType.DRAWING);
+        itemDrawingState.itemLocation = GameState.ItemLocation.INDOORS;
+        itemDrawingState.indoorPosition = ItemDrawing.transform.position;
+        GameState.SetStateForItem(ItemType.DRAWING, itemDrawingState);
+
         // Load placed items
         foreach (var item in ItemMapping)
         {
             var itemState = GameState.GetStateForItem(item.Key);
             if (itemState.itemLocation == GameState.ItemLocation.INDOORS && itemState.indoorPosition != Vector2.zero)
             {
-                item.Value.transform.position = itemState.indoorPosition;
+                item.Value.GetComponent<InteriorItem2D>().ShowAt(itemState.indoorPosition);
+                //item.Value.transform.position = itemState.indoorPosition;
                 HouseInventory.Add(item.Value);
             }
         }
-
-        //TODO: Temp
-        //Add drawing as placed item
-        var drawingState = GameState.GetStateForItem(ItemType.DRAWING);
-        drawingState.itemLocation = GameState.ItemLocation.INDOORS;
-        drawingState.indoorPosition = ItemDrawing.transform.position;
-        GameState.SetStateForItem(ItemType.DRAWING, drawingState);
 
         base.Start();
     }
@@ -126,37 +138,36 @@ public class PlayerController2D : PlayerController
         var isOverExit = Exit.GetComponent<Collider2D>().bounds.Intersects(_playerCollider.bounds);
         if (isOverExit)
         {
-            if (BackpackItem == null && Input.GetKeyDown(KeyCode.F))
+            if (BackpackItem == null && Input.GetKeyDown(keybinds.keyInteract))
             {
                 SceneManager.LoadScene("movementdemo");
             }
             return;
         }
 
+        var initialHouseInventory = HouseInventory.ToList();
+
         if (BackpackItem != null)
         {
-            if (Input.GetKeyDown(KeyCode.E))
+            if (Input.GetKeyDown(keybinds.keyInteract))
             {
                 var itemData = BackpackItem.GetComponent<InteriorItem2D>();
 
                 var dropPosition = transform.position + new Vector3(itemData.PlacementOffsetX, itemData.PlacementOffsetY, 0);
+                itemData.ShowAt(dropPosition);
 
                 var itemType = ItemMapping.Single(m => m.Value == BackpackItem).Key;
                 var newState = GameState.GetStateForItem(itemType);
                 newState.indoorPosition = dropPosition;
                 GameState.SetStateForItem(itemType, newState);
 
-                Debug.Log(newState);
-
                 HouseInventory.Add(BackpackItem);
-                BackpackItem.transform.position = dropPosition;
-                //BackpackItem.transform.position = transform.position + new Vector3(itemData.PlacementOffsetX, itemData.PlacementOffsetY, 0);
                 BackpackItem = null;
                 playerAnimator.SetBool("isCarryingItem", false);
             }
         }
 
-        foreach (var item in HouseInventory.ToList())
+        foreach (var item in initialHouseInventory)
         {
             var playerCollision = item.GetComponent<Collider2D>().bounds.Intersects(_playerCollider.bounds);
             var itemData = item.GetComponent<InteriorItem2D>();
@@ -167,18 +178,23 @@ public class PlayerController2D : PlayerController
 
                 if (BackpackItem == null)
                 {
-                    if (Input.GetKeyDown(KeyCode.E))
+                    if (Input.GetKeyDown(keybinds.keyInteract))
                     {
                         HouseInventory.Remove(item);
                         BackpackItem = item;
-                        item.transform.position = new Vector3(-20, -20, 0);
+                        //item.transform.position = new Vector3(-20, -20, 0);
+                        //item.GetComponent<Renderer>().enabled = false;
+                        itemData.Hide();
                         itemData.DisableGlow();
                         playerAnimator.SetBool("isCarryingItem", true);
                     }
-                    else if (Input.GetKeyDown(keybinds.keyInteract))
+                    else if (Input.GetKeyDown(KeyCode.F) && !activatedItems.Contains(item))
                     {
                         // Activate calm for the item
                         // Music + reduced stress
+                        activatedItems.Add(item);
+                        MinutesToNoStress = MinutesToNoStress / 1.3f;
+                        itemData.SetVolume(1.0f);
                     }
                 }
             }
@@ -194,8 +210,14 @@ public class PlayerController2D : PlayerController
         throw new System.NotImplementedException();
     }
 
-    protected override void ManageStressLevel () {
-        throw new System.NotImplementedException();
+    protected override void ManageStressLevel ()
+    {
+        var secondsToNoStress = MinutesToNoStress * 60;
+        var stressPerSecond = 1f / secondsToNoStress;
+        StressLevel -= stressPerSecond * Time.deltaTime;
+        //StressVisuals.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, StressLevel);
+
+        StressVisuals.GetComponent<StressVisuals>().StressLevel = StressLevel;
     }
 
     void FixedUpdate()
